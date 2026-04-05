@@ -4,7 +4,9 @@ using ICMarketsTest.Core.BlockchainSnapshots.GetBlockchainSnapshot;
 using ICMarketsTest.Core.BlockchainSnapshots.GetBlockchainSnapshots;
 using ICMarketsTest.Core.BlockchainSnapshots.TakeBlockchainSnapshot;
 using ICMarketsTest.Core.Networks.GetNetwork;
-using ICMarketsTest.WebApi.BlockchainSnapshots.Models;
+using ICMarketsTest.WebApi.BlockchainSnapshots.GetBlockchainSnapshot;
+using ICMarketsTest.WebApi.BlockchainSnapshots.GetBlockchainSnapshots;
+using ICMarketsTest.WebApi.BlockchainSnapshots.TakeBlockchainSnapshot;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -16,13 +18,6 @@ namespace ICMarketsTest.WebApi.BlockchainSnapshots;
 [SwaggerTag("Blockchain snapshots operations")]
 public class BlockchainSnapshotsController : ControllerBase
 {
-    private readonly IBlockchainSnapshotsMapper _mapper;
-
-    public BlockchainSnapshotsController(IBlockchainSnapshotsMapper mapper)
-    {
-        _mapper = mapper;
-    }
-
     [HttpPost]
     [SwaggerOperation("Takes blockchain snapshot for network")]
     [SwaggerResponse(StatusCodes.Status200OK, "Operation succeeded", typeof(void), MediaTypeNames.Application.Json)]
@@ -30,19 +25,20 @@ public class BlockchainSnapshotsController : ControllerBase
     [SwaggerResponse(StatusCodes.Status404NotFound, "Network is not found", typeof(void), MediaTypeNames.Application.Json)]
     public async Task<IActionResult> Take(
         [FromRoute] TakeBlockchainSnapshotRequest request,
-        IGetNetworkQueryExecutor queryExecutor,
-        ITakeBlockchainSnapshotCommandExecutor commandExecutor,
+        [FromServices] IGetNetworkQueryHandler queryHandler,
+        [FromServices] ITakeBlockchainSnapshotCommandHandler commandHandler,
+        [FromServices] ITakeBlockchainSnapshotMapper mapper,
         CancellationToken cancellationToken)
     {
-        var query = _mapper.Map(request);
-        var result = await queryExecutor.ExecuteAsync(query, cancellationToken);
+        var query = mapper.Map(request);
+        var result = await queryHandler.HandleAsync(query, cancellationToken);
         if (result is null)
         {
             return NotFound();
         }
 
-        var command = _mapper.Map(result);
-        await commandExecutor.ExecuteAsync(command, cancellationToken);
+        var command = mapper.Map(result);
+        await commandHandler.HandleAsync(command, cancellationToken);
 
         return Ok();
     }
@@ -54,15 +50,16 @@ public class BlockchainSnapshotsController : ControllerBase
     [SwaggerResponse(StatusCodes.Status404NotFound, "Blockchain snapshot is not found", typeof(void), MediaTypeNames.Application.Json)]
     public async Task<IActionResult> Get(
         [FromRoute] GetBlockchainSnapshotRequest request,
-        IGetBlockchainSnapshotQueryExecutor queryExecutor,
+        [FromServices] IGetBlockchainSnapshotQueryHandler queryHandler,
+        [FromServices] IGetBlockchainSnapshotMapper mapper,
         CancellationToken cancellationToken)
     {
-        var query = _mapper.Map(request);
-        var result = await queryExecutor.ExecuteAsync(query, cancellationToken);
+        var query = mapper.Map(request);
+        var result = await queryHandler.HandleAsync(query, cancellationToken);
 
         return result is null
             ? NotFound()
-            : Ok(_mapper.Map(result));
+            : Ok(mapper.Map(result));
     }
 
     [HttpGet]
@@ -71,12 +68,13 @@ public class BlockchainSnapshotsController : ControllerBase
     [SwaggerResponse(StatusCodes.Status400BadRequest, "Incoming request is not valid", typeof(ValidationProblemDetails), MediaTypeNames.Application.Json)]
     public async Task<IActionResult> GetPage(
         [FromRoute] GetBlockchainSnapshotsRequest request,
-        IGetBlockchainSnapshotsQueryExecutor queryExecutor,
+        [FromServices] IGetBlockchainSnapshotsQueryHandler queryHandler,
+        [FromServices] IGetBlockchainSnapshotsMapper mapper,
         CancellationToken cancellationToken)
     {
-        var query = _mapper.Map(request);
-        var result = await queryExecutor.ExecuteAsync(query, cancellationToken);
+        var query = mapper.Map(request);
+        var result = await queryHandler.HandleAsync(query, cancellationToken);
 
-        return Ok(_mapper.Map(result));
+        return Ok(mapper.Map(result));
     }
 }

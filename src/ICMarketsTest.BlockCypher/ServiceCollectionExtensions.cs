@@ -21,7 +21,9 @@ public static class ServiceCollectionExtensions
     {
         services
             .AddOptions<BlockCypherOptions>()
-            .BindConfiguration(nameof(BlockCypherOptions));
+            .BindConfiguration(nameof(BlockCypherOptions))
+            .ValidateDataAnnotations()
+            .ValidateOnStart();
 
         services
             .AddRefitClient<IBlockCypherClient>()

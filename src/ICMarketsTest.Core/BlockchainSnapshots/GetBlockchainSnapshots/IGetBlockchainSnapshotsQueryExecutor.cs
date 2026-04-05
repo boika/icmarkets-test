@@ -1,3 +1,0 @@
-namespace ICMarketsTest.Core.BlockchainSnapshots.GetBlockchainSnapshots;
-
-public interface IGetBlockchainSnapshotsQueryExecutor : IQueryExecutor<GetBlockchainSnapshotsQuery, PagedResult<BlockchainSnapshot>>;

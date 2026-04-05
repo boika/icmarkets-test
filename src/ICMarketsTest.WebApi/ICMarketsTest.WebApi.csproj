@@ -5,10 +5,14 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="Asp.Versioning.Mvc" Version="8.1.1" />
+        <PackageReference Include="OpenTelemetry.Exporter.Prometheus.AspNetCore" Version="1.15.1-beta.1" />
+        <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.15.1" />
+        <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.15.1" />
         <PackageReference Include="Riok.Mapperly" Version="4.3.1" />
         <PackageReference Include="Serilog.AspNetCore" Version="10.0.0" />
         <PackageReference Include="Serilog.Enrichers.Environment" Version="3.0.1" />
@@ -19,8 +23,9 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\ICMarketsTest.BlockCypher\ICMarketsTest.BlockCypher.csproj" />
-      <ProjectReference Include="..\ICMarketsTest.Storage\ICMarketsTest.Storage.csproj" />
+        <ProjectReference Include="..\ICMarketsTest.BlockCypher\ICMarketsTest.BlockCypher.csproj" />
+        <ProjectReference Include="..\ICMarketsTest.Configuration\ICMarketsTest.Configuration.csproj" />
+        <ProjectReference Include="..\ICMarketsTest.Storage\ICMarketsTest.Storage.csproj" />
     </ItemGroup>
 
 </Project>

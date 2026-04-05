@@ -4,7 +4,7 @@ using Serilog;
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
-    .CreateBootstrapLogger();
+    .CreateLogger();
 
 try
 {
@@ -23,6 +23,7 @@ try
     app.UseSerilogRequestLogging();
     app.MapControllers();
     app.MapHealthChecks("/health");
+    app.MapPrometheusScrapingEndpoint();
     app.MigrateStorage();
     app.Warmup();
 

@@ -10,7 +10,25 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ICMarketsTest.Storage", "sr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ICMarketsTest.BlockCypher", "src\ICMarketsTest.BlockCypher\ICMarketsTest.BlockCypher.csproj", "{422926F3-A645-406A-8FFF-42C91B3967A9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ICMarketsTest.Configuration", "src\ICMarketsTest.Configuration\ICMarketsTest.Configuration.csproj", "{5F8DCC44-B345-416F-8377-4063664AE0BD}"
+EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{650B5809-D044-48BB-A637-25E1FFEC6C07}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ICMarketsTest.Core.Tests.Unit", "tests\ICMarketsTest.Core.Tests.Unit\ICMarketsTest.Core.Tests.Unit.csproj", "{2FE8ED4B-8306-4F65-A181-155E39BC397B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ICMarketsTest.Configuration.Tests.Unit", "tests\ICMarketsTest.Configuration.Tests.Unit\ICMarketsTest.Configuration.Tests.Unit.csproj", "{1C7BC82D-C373-4928-BDE4-1A4B1DF9D2E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ICMarketsTest.BlockCypher.Tests.Unit", "tests\ICMarketsTest.BlockCypher.Tests.Unit\ICMarketsTest.BlockCypher.Tests.Unit.csproj", "{9668259E-BB93-4A80-A060-5908AA2720B7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ICMarketsTest.Storage.Tests.Integration", "tests\ICMarketsTest.Storage.Tests.Integration\ICMarketsTest.Storage.Tests.Integration.csproj", "{29EE68BA-1F83-4DCC-892A-3815AF44C237}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ICMarketsTest.WebApi.Tests.Functional", "tests\ICMarketsTest.WebApi.Tests.Functional\ICMarketsTest.WebApi.Tests.Functional.csproj", "{80E0D672-18C5-4333-B72E-42B4283BE6AB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docker", "docker", "{4DB2C4D9-ED1E-4597-A4C5-EF4D966AEF4F}"
+	ProjectSection(SolutionItems) = preProject
+		.dockerignore = .dockerignore
+		Dockerfile = Dockerfile
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -34,11 +52,41 @@ Global
 		{6F7350EC-0706-480A-BAF7-FB3A181CC8BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6F7350EC-0706-480A-BAF7-FB3A181CC8BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6F7350EC-0706-480A-BAF7-FB3A181CC8BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F8DCC44-B345-416F-8377-4063664AE0BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F8DCC44-B345-416F-8377-4063664AE0BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F8DCC44-B345-416F-8377-4063664AE0BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F8DCC44-B345-416F-8377-4063664AE0BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2FE8ED4B-8306-4F65-A181-155E39BC397B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2FE8ED4B-8306-4F65-A181-155E39BC397B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2FE8ED4B-8306-4F65-A181-155E39BC397B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2FE8ED4B-8306-4F65-A181-155E39BC397B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C7BC82D-C373-4928-BDE4-1A4B1DF9D2E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C7BC82D-C373-4928-BDE4-1A4B1DF9D2E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C7BC82D-C373-4928-BDE4-1A4B1DF9D2E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C7BC82D-C373-4928-BDE4-1A4B1DF9D2E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9668259E-BB93-4A80-A060-5908AA2720B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9668259E-BB93-4A80-A060-5908AA2720B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9668259E-BB93-4A80-A060-5908AA2720B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9668259E-BB93-4A80-A060-5908AA2720B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{29EE68BA-1F83-4DCC-892A-3815AF44C237}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{29EE68BA-1F83-4DCC-892A-3815AF44C237}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{29EE68BA-1F83-4DCC-892A-3815AF44C237}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{29EE68BA-1F83-4DCC-892A-3815AF44C237}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80E0D672-18C5-4333-B72E-42B4283BE6AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80E0D672-18C5-4333-B72E-42B4283BE6AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80E0D672-18C5-4333-B72E-42B4283BE6AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80E0D672-18C5-4333-B72E-42B4283BE6AB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{2D6FF6A2-84F7-4CC2-BB33-6CB01E397771} = {7F528458-6CB3-4B0F-85FC-A2DC5A851A54}
 		{249500C8-B735-4F63-A1DC-7F7F69A9506E} = {7F528458-6CB3-4B0F-85FC-A2DC5A851A54}
 		{422926F3-A645-406A-8FFF-42C91B3967A9} = {7F528458-6CB3-4B0F-85FC-A2DC5A851A54}
 		{6F7350EC-0706-480A-BAF7-FB3A181CC8BE} = {7F528458-6CB3-4B0F-85FC-A2DC5A851A54}
+		{5F8DCC44-B345-416F-8377-4063664AE0BD} = {7F528458-6CB3-4B0F-85FC-A2DC5A851A54}
+		{2FE8ED4B-8306-4F65-A181-155E39BC397B} = {650B5809-D044-48BB-A637-25E1FFEC6C07}
+		{1C7BC82D-C373-4928-BDE4-1A4B1DF9D2E8} = {650B5809-D044-48BB-A637-25E1FFEC6C07}
+		{9668259E-BB93-4A80-A060-5908AA2720B7} = {650B5809-D044-48BB-A637-25E1FFEC6C07}
+		{29EE68BA-1F83-4DCC-892A-3815AF44C237} = {650B5809-D044-48BB-A637-25E1FFEC6C07}
+		{80E0D672-18C5-4333-B72E-42B4283BE6AB} = {650B5809-D044-48BB-A637-25E1FFEC6C07}
 	EndGlobalSection
 EndGlobal

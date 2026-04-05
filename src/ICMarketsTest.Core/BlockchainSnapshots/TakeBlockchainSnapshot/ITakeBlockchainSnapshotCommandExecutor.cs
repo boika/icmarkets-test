@@ -1,3 +1,0 @@
-namespace ICMarketsTest.Core.BlockchainSnapshots.TakeBlockchainSnapshot;
-
-public interface ITakeBlockchainSnapshotCommandExecutor : ICommandExecutor<TakeBlockchainSnapshotCommand>;

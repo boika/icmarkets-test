@@ -10,8 +10,7 @@ public interface IBlockchainSnapshotsMapper
 }
 
 /// <summary>
-/// Mapperly generates object mappings via .net source generators
-/// https://mapperly.riok.app/docs/intro/
+/// Mapperly generates object mappings via .net source generators: https://mapperly.riok.app/docs/intro/
 /// </summary>
 [Mapper]
 public partial class BlockchainSnapshotsMapper : IBlockchainSnapshotsMapper
@@ -22,10 +21,13 @@ public partial class BlockchainSnapshotsMapper : IBlockchainSnapshotsMapper
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static DateTime MapDateTimeOffset(DateTimeOffset dateTime) => dateTime.UtcDateTime;
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static DateTimeOffset MapDateTime(DateTime dateTime) => new(dateTime, TimeSpan.Zero);
 }
 
 /// <summary>
-/// Mapperly also generates projections for IQueryable and EF Core
+/// Mapperly also generates projections for IQueryable and EF Core:
 /// https://mapperly.riok.app/docs/configuration/queryable-projections/
 /// </summary>
 [Mapper]
