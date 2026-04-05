@@ -25,8 +25,7 @@ public interface IBlockchainSnapshotsMapper
 }
 
 /// <summary>
-/// Mapperly generates object mappings via .net source generators
-/// https://mapperly.riok.app/docs/intro/
+/// Mapperly generates object mappings via .net source generators: https://mapperly.riok.app/docs/intro/
 /// </summary>
 [Mapper]
 public partial class BlockchainSnapshotsMapper : IBlockchainSnapshotsMapper
