@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace ICMarketsTest.WebApi.Networks.Configuration;
+namespace ICMarketsTest.Configuration.Networks;
 
 public class NetworkOptions
 {

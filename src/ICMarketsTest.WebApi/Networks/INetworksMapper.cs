@@ -3,7 +3,6 @@ using ICMarketsTest.Core;
 using ICMarketsTest.Core.Networks;
 using ICMarketsTest.Core.Networks.GetNetwork;
 using ICMarketsTest.Core.Networks.GetNetworks;
-using ICMarketsTest.WebApi.Networks.Configuration;
 using ICMarketsTest.WebApi.Networks.Models;
 using Riok.Mapperly.Abstractions;
 
@@ -16,13 +15,10 @@ public interface INetworksMapper
 
     GetNetworksQuery Map(GetNetworksRequest request);
     PagedResponse<GetNetworkResponse> Map(PagedResult<Network> networks);
-
-    Network Map(NetworkOptions networkOptions);
 }
 
 /// <summary>
-/// Mapperly generates object mappings via .net source generators
-/// https://mapperly.riok.app/docs/intro/
+/// Mapperly generates object mappings via .net source generators: https://mapperly.riok.app/docs/intro/
 /// </summary>
 [Mapper]
 public partial class NetworksMapper : INetworksMapper
@@ -37,8 +33,6 @@ public partial class NetworksMapper : INetworksMapper
     public partial GetNetworksQuery Map(GetNetworksRequest request);
 
     public partial PagedResponse<GetNetworkResponse> Map(PagedResult<Network> networks);
-
-    public partial Network Map(NetworkOptions network);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static int MapPageNumber(int? pageNumber) => pageNumber ?? 1;

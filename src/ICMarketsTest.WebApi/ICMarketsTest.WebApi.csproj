@@ -22,8 +22,9 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\ICMarketsTest.BlockCypher\ICMarketsTest.BlockCypher.csproj" />
-      <ProjectReference Include="..\ICMarketsTest.Storage\ICMarketsTest.Storage.csproj" />
+        <ProjectReference Include="..\ICMarketsTest.BlockCypher\ICMarketsTest.BlockCypher.csproj" />
+        <ProjectReference Include="..\ICMarketsTest.Configuration\ICMarketsTest.Configuration.csproj" />
+        <ProjectReference Include="..\ICMarketsTest.Storage\ICMarketsTest.Storage.csproj" />
     </ItemGroup>
 
 </Project>

@@ -1,14 +1,13 @@
 ﻿using ICMarketsTest.BlockCypher;
+using ICMarketsTest.Configuration;
 using ICMarketsTest.Core.BlockchainSnapshots.GetBlockchainSnapshot;
 using ICMarketsTest.Core.BlockchainSnapshots.GetBlockchainSnapshots;
 using ICMarketsTest.Core.BlockchainSnapshots.TakeBlockchainSnapshot;
-using ICMarketsTest.Core.Networks;
 using ICMarketsTest.Core.Networks.GetNetwork;
 using ICMarketsTest.Core.Networks.GetNetworks;
 using ICMarketsTest.Storage;
 using ICMarketsTest.WebApi.BlockchainSnapshots;
 using ICMarketsTest.WebApi.Networks;
-using ICMarketsTest.WebApi.Networks.Configuration;
 
 namespace ICMarketsTest.WebApi.Extensions;
 
@@ -33,16 +32,4 @@ internal static class ServiceCollectionExtensions
         .AddSingleton<INetworksMapper, NetworksMapper>()
         .AddScoped<IGetNetworkQueryHandler, GetNetworkQueryHandler>()
         .AddScoped<IGetNetworksQueryHandler, GetNetworksQueryHandler>();
-
-    private static IServiceCollection AddConfigurationNetworksRepository(this IServiceCollection services)
-    {
-        services
-            .AddScoped<INetworksRepository, ConfigurationNetworksRepository>()
-            .AddOptions<NetworksOptions>()
-            .BindConfiguration(nameof(NetworksOptions))
-            .ValidateDataAnnotations()
-            .ValidateOnStart();
-
-        return services;
-    }
 }

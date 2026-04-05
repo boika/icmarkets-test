@@ -2,7 +2,7 @@
 using ICMarketsTest.Core.Networks;
 using Microsoft.Extensions.Options;
 
-namespace ICMarketsTest.WebApi.Networks.Configuration;
+namespace ICMarketsTest.Configuration.Networks;
 
 /// <summary>
 /// Repository for networks on top of the configuration
