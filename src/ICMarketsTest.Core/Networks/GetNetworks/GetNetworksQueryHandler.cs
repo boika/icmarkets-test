@@ -9,11 +9,13 @@ public sealed class GetNetworksQueryHandler : IGetNetworksQueryHandler
         _repository = repository;
     }
 
-    public Task<PagedResult<Network>> HandleAsync(GetNetworksQuery query, CancellationToken cancellationToken = default)
+    public async Task<PagedResult<Network>> HandleAsync(GetNetworksQuery query, CancellationToken cancellationToken = default)
     {
         var pageNumber = Math.Max(1, query.PageNumber);
         var pageSize = Math.Clamp(query.PageSize, 1, 100);
 
-        return _repository.GetPageAsync(pageNumber, pageSize, cancellationToken);
+        var result = await _repository.GetPageAsync(pageNumber, pageSize, cancellationToken);
+
+        return result;
     }
 }

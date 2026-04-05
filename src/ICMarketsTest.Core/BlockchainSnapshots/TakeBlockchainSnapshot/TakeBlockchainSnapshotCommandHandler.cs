@@ -4,13 +4,16 @@ public sealed class TakeBlockchainSnapshotCommandHandler : ITakeBlockchainSnapsh
 {
     private readonly IBlockchainSnapshotsProvider _provider;
     private readonly IBlockchainSnapshotsRepository _repository;
+    private readonly TimeProvider _clock;
 
     public TakeBlockchainSnapshotCommandHandler(
         IBlockchainSnapshotsProvider provider,
-        IBlockchainSnapshotsRepository repository)
+        IBlockchainSnapshotsRepository repository,
+        TimeProvider clock)
     {
         _provider = provider;
         _repository = repository;
+        _clock = clock;
     }
 
     public async Task HandleAsync(TakeBlockchainSnapshotCommand command, CancellationToken cancellationToken = default)
@@ -20,7 +23,7 @@ public sealed class TakeBlockchainSnapshotCommandHandler : ITakeBlockchainSnapsh
             command.NetworkType,
             cancellationToken);
 
-        var now = DateTimeOffset.UtcNow;
+        var now = _clock.GetUtcNow();
         var id = Guid.CreateVersion7(now);
         var blockchainSnapshot = new BlockchainSnapshot
         {

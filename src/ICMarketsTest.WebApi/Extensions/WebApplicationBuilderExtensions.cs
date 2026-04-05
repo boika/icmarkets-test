@@ -131,11 +131,12 @@ internal static class WebApplicationBuilderExtensions
     }
 
     /// <summary>
-    /// Adds domain services: commands and queries with its dependencies and mappers
+    /// Adds domain services: mappers, commands and queries with its dependencies
     /// </summary>
     private static WebApplicationBuilder AddCoreServices(this WebApplicationBuilder builder)
     {
         builder.Services
+            .AddSingleton(TimeProvider.System)
             .AddNetworks()
             .AddBlockchainSnapshots();
 
