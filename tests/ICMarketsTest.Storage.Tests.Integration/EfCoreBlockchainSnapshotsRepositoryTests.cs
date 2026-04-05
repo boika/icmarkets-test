@@ -1,4 +1,5 @@
 ﻿using ICMarketsTest.Storage.BlockchainSnapshots;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -6,13 +7,17 @@ namespace ICMarketsTest.Storage.Tests.Integration;
 
 public class EfCoreBlockchainSnapshotsRepositoryTests : IDisposable
 {
+    private readonly SqliteConnection _connection;
     private readonly ServiceProvider _serviceProvider;
 
     public EfCoreBlockchainSnapshotsRepositoryTests()
     {
-        // Use in-memory database for testing
+        // Use sqlite in-memory database for testing
+        _connection = new SqliteConnection("DataSource=:memory:");
+        _connection.Open();
+
         _serviceProvider = new ServiceCollection()
-            .AddDbContext<StorageDbContext>(options => options.UseInMemoryDatabase("TestDb"))
+            .AddDbContext<StorageDbContext>(options => options.UseSqlite(_connection))
             .AddSingleton<IBlockchainSnapshotsMapper, BlockchainSnapshotsMapper>()
             .AddScoped<EfCoreBlockchainSnapshotsRepository>()
             .BuildServiceProvider();
@@ -24,8 +29,9 @@ public class EfCoreBlockchainSnapshotsRepositoryTests : IDisposable
         // Arrange
         using var scope = _serviceProvider.CreateScope();
         var scopedServices = scope.ServiceProvider;
-        var repository = scopedServices.GetRequiredService<EfCoreBlockchainSnapshotsRepository>();
         var dbContext = scopedServices.GetRequiredService<StorageDbContext>();
+        await dbContext.Database.EnsureCreatedAsync();
+        var repository = scopedServices.GetRequiredService<EfCoreBlockchainSnapshotsRepository>();
 
         var now = DateTimeOffset.UtcNow;
         var snapshot = new Core.BlockchainSnapshots.BlockchainSnapshot
@@ -54,8 +60,9 @@ public class EfCoreBlockchainSnapshotsRepositoryTests : IDisposable
         // Arrange
         using var scope = _serviceProvider.CreateScope();
         var scopedServices = scope.ServiceProvider;
-        var repository = scopedServices.GetRequiredService<EfCoreBlockchainSnapshotsRepository>();
         var dbContext = scopedServices.GetRequiredService<StorageDbContext>();
+        await dbContext.Database.EnsureCreatedAsync();
+        var repository = scopedServices.GetRequiredService<EfCoreBlockchainSnapshotsRepository>();
 
         var guid1 = Guid.NewGuid();
         var network1 = "network_1";
@@ -82,8 +89,9 @@ public class EfCoreBlockchainSnapshotsRepositoryTests : IDisposable
         // Arrange
         using var scope = _serviceProvider.CreateScope();
         var scopedServices = scope.ServiceProvider;
-        var repository = scopedServices.GetRequiredService<EfCoreBlockchainSnapshotsRepository>();
         var dbContext = scopedServices.GetRequiredService<StorageDbContext>();
+        await dbContext.Database.EnsureCreatedAsync();
+        var repository = scopedServices.GetRequiredService<EfCoreBlockchainSnapshotsRepository>();
 
         var guid1 = Guid.NewGuid();
         var network1 = "network_1";
@@ -112,8 +120,9 @@ public class EfCoreBlockchainSnapshotsRepositoryTests : IDisposable
         // Arrange
         using var scope = _serviceProvider.CreateScope();
         var scopedServices = scope.ServiceProvider;
-        var repository = scopedServices.GetRequiredService<EfCoreBlockchainSnapshotsRepository>();
         var dbContext = scopedServices.GetRequiredService<StorageDbContext>();
+        await dbContext.Database.EnsureCreatedAsync();
+        var repository = scopedServices.GetRequiredService<EfCoreBlockchainSnapshotsRepository>();
 
         var guid1 = Guid.NewGuid();
         var guid2 = Guid.NewGuid();
@@ -145,8 +154,5 @@ public class EfCoreBlockchainSnapshotsRepositoryTests : IDisposable
         page.Data.ShouldHaveSingleItem().Id.ShouldBe(guid1);
     }
 
-    public void Dispose() => _serviceProvider
-        .GetRequiredService<StorageDbContext>()
-        .Database
-        .EnsureDeleted();
+    public void Dispose() => _connection.Close();
 }
