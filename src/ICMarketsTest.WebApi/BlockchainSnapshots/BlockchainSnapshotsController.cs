@@ -30,19 +30,19 @@ public class BlockchainSnapshotsController : ControllerBase
     [SwaggerResponse(StatusCodes.Status404NotFound, "Network is not found", typeof(void), MediaTypeNames.Application.Json)]
     public async Task<IActionResult> Take(
         [FromRoute] TakeBlockchainSnapshotRequest request,
-        IGetNetworkQueryExecutor queryExecutor,
-        ITakeBlockchainSnapshotCommandExecutor commandExecutor,
+        IGetNetworkQueryHandler queryHandler,
+        ITakeBlockchainSnapshotCommandHandler commandHandler,
         CancellationToken cancellationToken)
     {
         var query = _mapper.Map(request);
-        var result = await queryExecutor.ExecuteAsync(query, cancellationToken);
+        var result = await queryHandler.HandleAsync(query, cancellationToken);
         if (result is null)
         {
             return NotFound();
         }
 
         var command = _mapper.Map(result);
-        await commandExecutor.ExecuteAsync(command, cancellationToken);
+        await commandHandler.HandleAsync(command, cancellationToken);
 
         return Ok();
     }
@@ -54,11 +54,11 @@ public class BlockchainSnapshotsController : ControllerBase
     [SwaggerResponse(StatusCodes.Status404NotFound, "Blockchain snapshot is not found", typeof(void), MediaTypeNames.Application.Json)]
     public async Task<IActionResult> Get(
         [FromRoute] GetBlockchainSnapshotRequest request,
-        IGetBlockchainSnapshotQueryExecutor queryExecutor,
+        IGetBlockchainSnapshotQueryHandler queryHandler,
         CancellationToken cancellationToken)
     {
         var query = _mapper.Map(request);
-        var result = await queryExecutor.ExecuteAsync(query, cancellationToken);
+        var result = await queryHandler.HandleAsync(query, cancellationToken);
 
         return result is null
             ? NotFound()
@@ -71,11 +71,11 @@ public class BlockchainSnapshotsController : ControllerBase
     [SwaggerResponse(StatusCodes.Status400BadRequest, "Incoming request is not valid", typeof(ValidationProblemDetails), MediaTypeNames.Application.Json)]
     public async Task<IActionResult> GetPage(
         [FromRoute] GetBlockchainSnapshotsRequest request,
-        IGetBlockchainSnapshotsQueryExecutor queryExecutor,
+        IGetBlockchainSnapshotsQueryHandler queryHandler,
         CancellationToken cancellationToken)
     {
         var query = _mapper.Map(request);
-        var result = await queryExecutor.ExecuteAsync(query, cancellationToken);
+        var result = await queryHandler.HandleAsync(query, cancellationToken);
 
         return Ok(_mapper.Map(result));
     }

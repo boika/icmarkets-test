@@ -15,24 +15,24 @@ namespace ICMarketsTest.WebApi.Extensions;
 internal static class ServiceCollectionExtensions
 {
     /// <summary>
-    /// Adds blockchain snapshots commands and queries with its dependencies
+    /// Adds blockchain snapshots command and query handlers with its dependencies
     /// </summary>
     internal static IServiceCollection AddBlockchainSnapshots(this IServiceCollection services) => services
         .AddEfCoreBlockchainSnapshotsRepository()
         .AddBlockCypherBlockchainSnapshotsProvider()
         .AddSingleton<IBlockchainSnapshotsMapper, BlockchainSnapshotsMapper>()
-        .AddScoped<ITakeBlockchainSnapshotCommandExecutor, TakeBlockchainSnapshotCommandExecutor>()
-        .AddScoped<IGetBlockchainSnapshotQueryExecutor, GetBlockchainSnapshotQueryExecutor>()
-        .AddScoped<IGetBlockchainSnapshotsQueryExecutor, GetBlockchainSnapshotsQueryExecutor>();
+        .AddScoped<ITakeBlockchainSnapshotCommandHandler, TakeBlockchainSnapshotCommandHandler>()
+        .AddScoped<IGetBlockchainSnapshotQueryHandler, GetBlockchainSnapshotQueryHandler>()
+        .AddScoped<IGetBlockchainSnapshotsQueryHandler, GetBlockchainSnapshotsQueryHandler>();
 
     /// <summary>
-    /// Adds networks commands and queries with its dependencies
+    /// Adds networks command and query handlers with its dependencies
     /// </summary>
     internal static IServiceCollection AddNetworks(this IServiceCollection services) => services
         .AddConfigurationNetworksRepository()
         .AddSingleton<INetworksMapper, NetworksMapper>()
-        .AddScoped<IGetNetworkQueryExecutor, GetNetworkQueryExecutor>()
-        .AddScoped<IGetNetworksQueryExecutor, GetNetworksQueryExecutor>();
+        .AddScoped<IGetNetworkQueryHandler, GetNetworkQueryHandler>()
+        .AddScoped<IGetNetworksQueryHandler, GetNetworksQueryHandler>();
 
     private static IServiceCollection AddConfigurationNetworksRepository(this IServiceCollection services)
     {

@@ -1,15 +1,15 @@
 ﻿namespace ICMarketsTest.Core.BlockchainSnapshots.GetBlockchainSnapshots;
 
-public sealed class GetBlockchainSnapshotsQueryExecutor : IGetBlockchainSnapshotsQueryExecutor
+public sealed class GetBlockchainSnapshotsQueryHandler : IGetBlockchainSnapshotsQueryHandler
 {
     private readonly IBlockchainSnapshotsRepository _repository;
 
-    public GetBlockchainSnapshotsQueryExecutor(IBlockchainSnapshotsRepository repository)
+    public GetBlockchainSnapshotsQueryHandler(IBlockchainSnapshotsRepository repository)
     {
         _repository = repository;
     }
 
-    public async Task<PagedResult<BlockchainSnapshot>> ExecuteAsync(GetBlockchainSnapshotsQuery query, CancellationToken cancellationToken = default)
+    public async Task<PagedResult<BlockchainSnapshot>> HandleAsync(GetBlockchainSnapshotsQuery query, CancellationToken cancellationToken = default)
     {
         var pageNumber = Math.Max(1, query.PageNumber);
         var pageSize = Math.Clamp(query.PageSize, 1, 100);

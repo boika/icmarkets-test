@@ -1,0 +1,3 @@
+namespace ICMarketsTest.Core.BlockchainSnapshots.TakeBlockchainSnapshot;
+
+public interface ITakeBlockchainSnapshotCommandHandler : ICommandHandler<TakeBlockchainSnapshotCommand>;

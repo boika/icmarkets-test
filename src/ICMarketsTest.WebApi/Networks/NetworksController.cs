@@ -28,11 +28,11 @@ public class NetworksController : ControllerBase
     [SwaggerResponse(StatusCodes.Status404NotFound, "Network is not found", typeof(void), MediaTypeNames.Application.Json)]
     public async Task<IActionResult> Get(
         [FromRoute] GetNetworkRequest request,
-        IGetNetworkQueryExecutor queryExecutor,
+        IGetNetworkQueryHandler queryHandler,
         CancellationToken cancellationToken)
     {
         var query = _mapper.Map(request);
-        var result = await queryExecutor.ExecuteAsync(query, cancellationToken);
+        var result = await queryHandler.HandleAsync(query, cancellationToken);
 
         return result is null
             ? NotFound()
@@ -45,11 +45,11 @@ public class NetworksController : ControllerBase
     [SwaggerResponse(StatusCodes.Status400BadRequest, "Incoming request is not valid", typeof(ValidationProblemDetails), MediaTypeNames.Application.Json)]
     public async Task<IActionResult> GetPage(
         [FromRoute] GetNetworksRequest request,
-        IGetNetworksQueryExecutor queryExecutor,
+        IGetNetworksQueryHandler queryHandler,
         CancellationToken cancellationToken)
     {
         var query = _mapper.Map(request);
-        var result = await queryExecutor.ExecuteAsync(query, cancellationToken);
+        var result = await queryHandler.HandleAsync(query, cancellationToken);
 
         return Ok(_mapper.Map(result));
     }

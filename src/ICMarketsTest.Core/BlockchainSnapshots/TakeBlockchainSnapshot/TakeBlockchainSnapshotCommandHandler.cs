@@ -1,11 +1,11 @@
 ﻿namespace ICMarketsTest.Core.BlockchainSnapshots.TakeBlockchainSnapshot;
 
-public sealed class TakeBlockchainSnapshotCommandExecutor : ITakeBlockchainSnapshotCommandExecutor
+public sealed class TakeBlockchainSnapshotCommandHandler : ITakeBlockchainSnapshotCommandHandler
 {
     private readonly IBlockchainSnapshotsProvider _provider;
     private readonly IBlockchainSnapshotsRepository _repository;
 
-    public TakeBlockchainSnapshotCommandExecutor(
+    public TakeBlockchainSnapshotCommandHandler(
         IBlockchainSnapshotsProvider provider,
         IBlockchainSnapshotsRepository repository)
     {
@@ -13,7 +13,7 @@ public sealed class TakeBlockchainSnapshotCommandExecutor : ITakeBlockchainSnaps
         _repository = repository;
     }
 
-    public async Task ExecuteAsync(TakeBlockchainSnapshotCommand command, CancellationToken cancellationToken = default)
+    public async Task HandleAsync(TakeBlockchainSnapshotCommand command, CancellationToken cancellationToken = default)
     {
         var payload = await _provider.GetBlockchainSnapshotAsync(
             command.NetworkName,
@@ -31,7 +31,5 @@ public sealed class TakeBlockchainSnapshotCommandExecutor : ITakeBlockchainSnaps
         };
 
         await _repository.AddAsync(blockchainSnapshot, cancellationToken);
-
-        // todo: emit event
     }
 }

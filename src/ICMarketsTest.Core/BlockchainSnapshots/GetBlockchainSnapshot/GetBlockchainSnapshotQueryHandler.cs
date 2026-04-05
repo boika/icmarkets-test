@@ -1,15 +1,15 @@
 ﻿namespace ICMarketsTest.Core.BlockchainSnapshots.GetBlockchainSnapshot;
 
-public sealed class GetBlockchainSnapshotQueryExecutor : IGetBlockchainSnapshotQueryExecutor
+public sealed class GetBlockchainSnapshotQueryHandler : IGetBlockchainSnapshotQueryHandler
 {
     private readonly IBlockchainSnapshotsRepository _repository;
 
-    public GetBlockchainSnapshotQueryExecutor(IBlockchainSnapshotsRepository repository)
+    public GetBlockchainSnapshotQueryHandler(IBlockchainSnapshotsRepository repository)
     {
         _repository = repository;
     }
 
-    public async Task<BlockchainSnapshot?> ExecuteAsync(GetBlockchainSnapshotQuery query, CancellationToken cancellationToken = default)
+    public async Task<BlockchainSnapshot?> HandleAsync(GetBlockchainSnapshotQuery query, CancellationToken cancellationToken = default)
     {
         var snapshot = await _repository.GetAsync(query.Id, query.NetworkId, cancellationToken);
 
