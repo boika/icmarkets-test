@@ -5,6 +5,8 @@ using ICMarketsTest.Storage;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.OpenApi;
+using OpenTelemetry.Exporter;
+using OpenTelemetry.Metrics;
 using Serilog;
 
 namespace ICMarketsTest.WebApi.Extensions;
@@ -17,6 +19,7 @@ internal static class WebApplicationBuilderExtensions
     internal static WebApplicationBuilder Configure(this WebApplicationBuilder builder) => builder
         .ValidateServiceProvider()
         .AddSerilogLogging()
+        .AddMetrics()
         .AddAspNetCore()
         .AddSwaggerForDevelopment()
         .AddCoreServices();
@@ -138,4 +141,44 @@ internal static class WebApplicationBuilderExtensions
 
         return builder;
     }
+
+    /// <summary>
+    /// Adds asp.net core, runtime, http client and ef core metrics along with exporting to prometheus
+    /// </summary>
+    private static WebApplicationBuilder AddMetrics(this WebApplicationBuilder builder)
+    {
+        builder.Services
+            .AddOptions<PrometheusAspNetCoreOptions>()
+            .BindConfiguration(nameof(PrometheusAspNetCoreOptions));
+
+        builder.Services
+            .AddOpenTelemetry()
+            .WithMetrics(static builder => builder
+                .AddRuntimeInstrumentation()
+                .AddAspNetCoreInstrumentation()
+                .AddHttpClientInstrumentation()
+                .AddEfCoreInstrumentation()
+                .AddPrometheusExporter());
+
+        return builder;
+    }
+
+    /// <summary>
+    /// https://learn.microsoft.com/en-us/dotnet/core/diagnostics/built-in-metrics-runtime
+    /// </summary>
+    private static MeterProviderBuilder AddRuntimeInstrumentation(this MeterProviderBuilder builder) => builder
+        .AddMeter("System.Runtime");
+
+    /// <summary>
+    /// https://learn.microsoft.com/en-us/dotnet/core/diagnostics/built-in-metrics-system-net
+    /// </summary>
+    private static MeterProviderBuilder AddHttpClientInstrumentation(this MeterProviderBuilder builder) => builder
+        .AddMeter("System.Net.Http")
+        .AddMeter("System.Net.NameResolution");
+
+    /// <summary>
+    /// https://learn.microsoft.com/en-us/ef/core/logging-events-diagnostics/metrics
+    /// </summary>
+    private static MeterProviderBuilder AddEfCoreInstrumentation(this MeterProviderBuilder builder) => builder
+        .AddMeter("Microsoft.EntityFrameworkCore");
 }
