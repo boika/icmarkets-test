@@ -13,6 +13,7 @@ public class EfCoreBlockchainSnapshotsRepositoryTests : IDisposable
     public EfCoreBlockchainSnapshotsRepositoryTests()
     {
         // Use sqlite in-memory database for testing
+        // Provide open SqliteConnection so EF won't automatically close it
         _connection = new SqliteConnection("DataSource=:memory:");
         _connection.Open();
 

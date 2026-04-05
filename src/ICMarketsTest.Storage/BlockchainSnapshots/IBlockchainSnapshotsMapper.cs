@@ -21,6 +21,9 @@ public partial class BlockchainSnapshotsMapper : IBlockchainSnapshotsMapper
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static DateTime MapDateTimeOffset(DateTimeOffset dateTime) => dateTime.UtcDateTime;
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static DateTimeOffset MapDateTime(DateTime dateTime) => new(dateTime, TimeSpan.Zero);
 }
 
 /// <summary>

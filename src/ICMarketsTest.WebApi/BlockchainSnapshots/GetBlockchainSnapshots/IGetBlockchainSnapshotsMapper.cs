@@ -32,6 +32,9 @@ public partial class GetBlockchainSnapshotsMapper : IGetBlockchainSnapshotsMappe
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static int MapPageSize(int? pageSize) => pageSize ?? 10;
 
+    [MapProperty(nameof(BlockchainSnapshot.Id), nameof(GetBlockchainSnapshotResponse.Id), StringFormat = "N")]
+    private partial GetBlockchainSnapshotResponse Map(BlockchainSnapshot snapshot);
+
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static object? MapPayload(string payload) => JsonSerializer.Deserialize<dynamic>(payload);
 }
