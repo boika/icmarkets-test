@@ -12,13 +12,13 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddConfigurationNetworksRepository(this IServiceCollection services)
     {
         services
-            .AddSingleton<INetworksMapper, NetworksMapper>()
-            .AddScoped<INetworksRepository, ConfigurationNetworksRepository>()
             .AddOptions<NetworksOptions>()
             .BindConfiguration(nameof(NetworksOptions))
             .ValidateDataAnnotations()
             .ValidateOnStart();
 
-        return services;
+        return services
+            .AddSingleton<INetworksMapper, NetworksMapper>()
+            .AddScoped<INetworksRepository, ConfigurationNetworksRepository>();
     }
 }

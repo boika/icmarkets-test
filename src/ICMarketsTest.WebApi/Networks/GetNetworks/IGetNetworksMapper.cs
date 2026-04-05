@@ -1,18 +1,14 @@
 ﻿using System.Runtime.CompilerServices;
 using ICMarketsTest.Core;
 using ICMarketsTest.Core.Networks;
-using ICMarketsTest.Core.Networks.GetNetwork;
 using ICMarketsTest.Core.Networks.GetNetworks;
-using ICMarketsTest.WebApi.Networks.Models;
+using ICMarketsTest.WebApi.Networks.GetNetwork;
 using Riok.Mapperly.Abstractions;
 
-namespace ICMarketsTest.WebApi.Networks;
+namespace ICMarketsTest.WebApi.Networks.GetNetworks;
 
-public interface INetworksMapper
+public interface IGetNetworksMapper
 {
-    GetNetworkQuery Map(GetNetworkRequest request);
-    GetNetworkResponse Map(Network network);
-
     GetNetworksQuery Map(GetNetworksRequest request);
     PagedResponse<GetNetworkResponse> Map(PagedResult<Network> networks);
 }
@@ -21,13 +17,8 @@ public interface INetworksMapper
 /// Mapperly generates object mappings via .net source generators: https://mapperly.riok.app/docs/intro/
 /// </summary>
 [Mapper]
-public partial class NetworksMapper : INetworksMapper
+public partial class GetNetworksMapper : IGetNetworksMapper
 {
-    [MapProperty(nameof(GetNetworkRequest.NetworkId), nameof(GetNetworkQuery.Id))]
-    public partial GetNetworkQuery Map(GetNetworkRequest request);
-
-    public partial GetNetworkResponse Map(Network network);
-
     [MapProperty(nameof(GetNetworksRequest.PageNumber), nameof(GetNetworksQuery.PageNumber), Use = nameof(MapPageNumber))]
     [MapProperty(nameof(GetNetworksRequest.PageSize), nameof(GetNetworksQuery.PageSize), Use = nameof(MapPageSize))]
     public partial GetNetworksQuery Map(GetNetworksRequest request);

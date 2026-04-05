@@ -2,7 +2,8 @@
 using Asp.Versioning;
 using ICMarketsTest.Core.Networks.GetNetwork;
 using ICMarketsTest.Core.Networks.GetNetworks;
-using ICMarketsTest.WebApi.Networks.Models;
+using ICMarketsTest.WebApi.Networks.GetNetwork;
+using ICMarketsTest.WebApi.Networks.GetNetworks;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -14,13 +15,6 @@ namespace ICMarketsTest.WebApi.Networks;
 [SwaggerTag("Networks operations")]
 public class NetworksController : ControllerBase
 {
-    private readonly INetworksMapper _mapper;
-
-    public NetworksController(INetworksMapper mapper)
-    {
-        _mapper = mapper;
-    }
-
     [HttpGet("{networkId}")]
     [SwaggerOperation("Gets network by identifier")]
     [SwaggerResponse(StatusCodes.Status200OK, "The network", typeof(GetNetworkResponse), MediaTypeNames.Application.Json)]
@@ -29,14 +23,15 @@ public class NetworksController : ControllerBase
     public async Task<IActionResult> Get(
         [FromRoute] GetNetworkRequest request,
         [FromServices] IGetNetworkQueryHandler queryHandler,
+        [FromServices] IGetNetworkMapper mapper,
         CancellationToken cancellationToken)
     {
-        var query = _mapper.Map(request);
+        var query = mapper.Map(request);
         var result = await queryHandler.HandleAsync(query, cancellationToken);
 
         return result is null
             ? NotFound()
-            : Ok(_mapper.Map(result));
+            : Ok(mapper.Map(result));
     }
 
     [HttpGet]
@@ -46,11 +41,12 @@ public class NetworksController : ControllerBase
     public async Task<IActionResult> GetPage(
         [FromRoute] GetNetworksRequest request,
         [FromServices] IGetNetworksQueryHandler queryHandler,
+        [FromServices] IGetNetworksMapper mapper,
         CancellationToken cancellationToken)
     {
-        var query = _mapper.Map(request);
+        var query = mapper.Map(request);
         var result = await queryHandler.HandleAsync(query, cancellationToken);
 
-        return Ok(_mapper.Map(result));
+        return Ok(mapper.Map(result));
     }
 }

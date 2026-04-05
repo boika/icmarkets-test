@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
-namespace ICMarketsTest.WebApi.BlockchainSnapshots.Models;
+namespace ICMarketsTest.WebApi.BlockchainSnapshots.GetBlockchainSnapshot;
 
 public sealed class GetBlockchainSnapshotRequest
 {

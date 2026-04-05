@@ -4,7 +4,9 @@ using ICMarketsTest.Core.BlockchainSnapshots.GetBlockchainSnapshot;
 using ICMarketsTest.Core.BlockchainSnapshots.GetBlockchainSnapshots;
 using ICMarketsTest.Core.BlockchainSnapshots.TakeBlockchainSnapshot;
 using ICMarketsTest.Core.Networks.GetNetwork;
-using ICMarketsTest.WebApi.BlockchainSnapshots.Models;
+using ICMarketsTest.WebApi.BlockchainSnapshots.GetBlockchainSnapshot;
+using ICMarketsTest.WebApi.BlockchainSnapshots.GetBlockchainSnapshots;
+using ICMarketsTest.WebApi.BlockchainSnapshots.TakeBlockchainSnapshot;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -16,13 +18,6 @@ namespace ICMarketsTest.WebApi.BlockchainSnapshots;
 [SwaggerTag("Blockchain snapshots operations")]
 public class BlockchainSnapshotsController : ControllerBase
 {
-    private readonly IBlockchainSnapshotsMapper _mapper;
-
-    public BlockchainSnapshotsController(IBlockchainSnapshotsMapper mapper)
-    {
-        _mapper = mapper;
-    }
-
     [HttpPost]
     [SwaggerOperation("Takes blockchain snapshot for network")]
     [SwaggerResponse(StatusCodes.Status200OK, "Operation succeeded", typeof(void), MediaTypeNames.Application.Json)]
@@ -32,16 +27,17 @@ public class BlockchainSnapshotsController : ControllerBase
         [FromRoute] TakeBlockchainSnapshotRequest request,
         [FromServices] IGetNetworkQueryHandler queryHandler,
         [FromServices] ITakeBlockchainSnapshotCommandHandler commandHandler,
+        [FromServices] ITakeBlockchainSnapshotMapper mapper,
         CancellationToken cancellationToken)
     {
-        var query = _mapper.Map(request);
+        var query = mapper.Map(request);
         var result = await queryHandler.HandleAsync(query, cancellationToken);
         if (result is null)
         {
             return NotFound();
         }
 
-        var command = _mapper.Map(result);
+        var command = mapper.Map(result);
         await commandHandler.HandleAsync(command, cancellationToken);
 
         return Ok();
@@ -55,14 +51,15 @@ public class BlockchainSnapshotsController : ControllerBase
     public async Task<IActionResult> Get(
         [FromRoute] GetBlockchainSnapshotRequest request,
         [FromServices] IGetBlockchainSnapshotQueryHandler queryHandler,
+        [FromServices] IGetBlockchainSnapshotMapper mapper,
         CancellationToken cancellationToken)
     {
-        var query = _mapper.Map(request);
+        var query = mapper.Map(request);
         var result = await queryHandler.HandleAsync(query, cancellationToken);
 
         return result is null
             ? NotFound()
-            : Ok(_mapper.Map(result));
+            : Ok(mapper.Map(result));
     }
 
     [HttpGet]
@@ -72,11 +69,12 @@ public class BlockchainSnapshotsController : ControllerBase
     public async Task<IActionResult> GetPage(
         [FromRoute] GetBlockchainSnapshotsRequest request,
         [FromServices] IGetBlockchainSnapshotsQueryHandler queryHandler,
+        [FromServices] IGetBlockchainSnapshotsMapper mapper,
         CancellationToken cancellationToken)
     {
-        var query = _mapper.Map(request);
+        var query = mapper.Map(request);
         var result = await queryHandler.HandleAsync(query, cancellationToken);
 
-        return Ok(_mapper.Map(result));
+        return Ok(mapper.Map(result));
     }
 }

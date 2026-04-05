@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
-namespace ICMarketsTest.WebApi.Networks.Models;
+namespace ICMarketsTest.WebApi.Networks.GetNetwork;
 
 public sealed class GetNetworkRequest
 {
