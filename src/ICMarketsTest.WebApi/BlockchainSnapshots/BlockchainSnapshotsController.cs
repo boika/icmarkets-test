@@ -30,8 +30,8 @@ public class BlockchainSnapshotsController : ControllerBase
     [SwaggerResponse(StatusCodes.Status404NotFound, "Network is not found", typeof(void), MediaTypeNames.Application.Json)]
     public async Task<IActionResult> Take(
         [FromRoute] TakeBlockchainSnapshotRequest request,
-        IGetNetworkQueryHandler queryHandler,
-        ITakeBlockchainSnapshotCommandHandler commandHandler,
+        [FromServices] IGetNetworkQueryHandler queryHandler,
+        [FromServices] ITakeBlockchainSnapshotCommandHandler commandHandler,
         CancellationToken cancellationToken)
     {
         var query = _mapper.Map(request);
@@ -54,7 +54,7 @@ public class BlockchainSnapshotsController : ControllerBase
     [SwaggerResponse(StatusCodes.Status404NotFound, "Blockchain snapshot is not found", typeof(void), MediaTypeNames.Application.Json)]
     public async Task<IActionResult> Get(
         [FromRoute] GetBlockchainSnapshotRequest request,
-        IGetBlockchainSnapshotQueryHandler queryHandler,
+        [FromServices] IGetBlockchainSnapshotQueryHandler queryHandler,
         CancellationToken cancellationToken)
     {
         var query = _mapper.Map(request);
@@ -71,7 +71,7 @@ public class BlockchainSnapshotsController : ControllerBase
     [SwaggerResponse(StatusCodes.Status400BadRequest, "Incoming request is not valid", typeof(ValidationProblemDetails), MediaTypeNames.Application.Json)]
     public async Task<IActionResult> GetPage(
         [FromRoute] GetBlockchainSnapshotsRequest request,
-        IGetBlockchainSnapshotsQueryHandler queryHandler,
+        [FromServices] IGetBlockchainSnapshotsQueryHandler queryHandler,
         CancellationToken cancellationToken)
     {
         var query = _mapper.Map(request);
