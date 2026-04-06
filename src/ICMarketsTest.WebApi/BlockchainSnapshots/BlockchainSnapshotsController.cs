@@ -63,8 +63,8 @@ public class BlockchainSnapshotsController : ControllerBase
     }
 
     [HttpGet]
-    [SwaggerOperation("Gets paged list of blockchain snapshots in reversed chronological order")]
-    [SwaggerResponse(StatusCodes.Status200OK, "Paged list of blockchain snapshots in reversed chronological order", typeof(PagedResponse<GetBlockchainSnapshotResponse>), MediaTypeNames.Application.Json)]
+    [SwaggerOperation("Gets paged list of blockchain snapshots in reverse chronological order")]
+    [SwaggerResponse(StatusCodes.Status200OK, "Paged list of blockchain snapshots in reverse chronological order", typeof(PagedResponse<GetBlockchainSnapshotResponse>), MediaTypeNames.Application.Json)]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "Incoming request is not valid", typeof(ValidationProblemDetails), MediaTypeNames.Application.Json)]
     public async Task<IActionResult> GetPage(
         [FromRoute] GetBlockchainSnapshotsRequest request,
